@@ -30,6 +30,9 @@ module.exports = class MenuController {
           break
         case 'Exit':
           this.exit();
+        case 'Remind':
+          this.remindMe();
+          break;
         default:
           console.log('Invalid input');
           this.main();
@@ -64,6 +67,10 @@ module.exports = class MenuController {
 
   getContactCount() {
     return this.contacts.length;
+  }
+
+  remindMe() {
+    return 'Learning is a life-long pursuit';
   }
 
 }
