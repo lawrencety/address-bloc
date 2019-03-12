@@ -4,7 +4,7 @@
   "description": "An application to model an address book in Node",
   "main": "\u001b[D\u001b[D\u001b[D\u001bapp\u001b[3~\u001b[3~",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/jasmine"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,8 @@
   "homepage": "https://github.com/lawrencety/address-bloc#readme",
   "dependencies": {
     "inquirer": "^6.2.2"
+  },
+  "devDependencies": {
+    "jasmine": "^3.3.1"
   }
 }
