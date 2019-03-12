@@ -9,6 +9,7 @@ module.exports = class MenuController {
         message: 'Please choose from an option below: ',
         choices: [
           'Add new contact',
+          'Clock',
           'Exit'
         ]
       }
@@ -24,6 +25,9 @@ module.exports = class MenuController {
         case 'Add new contact':
           this.addContact();
           break;
+        case 'Clock':
+          this.getDate();
+          break
         case 'Exit':
           this.exit();
         default:
@@ -49,6 +53,13 @@ module.exports = class MenuController {
   exit() {
     console.log('Thanks for using AddressBloc!');
     process.exit();
+  }
+
+  getDate() {
+    let dateStamp = new Date().toDateString();
+    let timeStamp = new Date().toTimeString();
+    let stamp = dateStamp + ' ' + timeStamp;
+    console.log(stamp);
   }
 
 }
