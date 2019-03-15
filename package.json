@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/lawrencety/address-bloc#readme",
   "dependencies": {
-    "inquirer": "^6.2.2"
+    "inquirer": "^6.2.2",
+    "pg": "^7.8.2",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.43.0"
   },
   "devDependencies": {
     "jasmine": "^3.3.1"
