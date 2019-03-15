@@ -10,7 +10,9 @@ module.exports = class MenuController {
         message: 'Please choose from an option below: ',
         choices: [
           'Add new contact',
-          'Clock',
+          'View all contacts',
+          'Search for a contact',
+          'View time',
           'Exit'
         ]
       }
@@ -26,7 +28,13 @@ module.exports = class MenuController {
         case 'Add new contact':
           this.addContact();
           break;
-        case 'Clock':
+        case 'View all contacts':
+          this.getContacts();
+          break;
+        case 'Search for a contact':
+          this.searchContact();
+          break;
+        case 'View time':
           this.getDate();
           break
         case 'Exit':
@@ -71,10 +79,91 @@ module.exports = class MenuController {
     let timeStamp = new Date().toTimeString();
     let stamp = dateStamp + ' ' + timeStamp;
     console.log(stamp);
+    this.main();
   }
 
   remindMe() {
     return 'Learning is a life-long pursuit';
+    this.main();
+  }
+
+  getContacts() {
+    this.clear();
+    this.book.getContacts().then((contacts) => {
+      for (let contact of contacts) {
+        this._printContact(contact);
+      }
+      this.main();
+    })
+    .catch((err) => {
+      console.log(err);
+      this.main();
+    })
+  }
+
+  searchContact() {
+    this.clear();
+    inquirer.prompt(this.book.searchQuestions)
+    .then((target) => {
+      this.book.search(target.name)
+      .then((contact) => {
+        if(contact == null) {
+          this.clear();
+          console.log('Contact not found');
+          this.main();
+        } else {
+          this.showContact(contact);
+        }
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+      this.main();
+    })
+  }
+
+  showContact(contact) {
+    this._printContact(contact);
+    inquirer.prompt(this.book.showContactQuestions)
+    .then((answer) => {
+      switch (answer.selected) {
+        case 'Delete contact':
+          this.delete(contact);
+          break;
+        case 'Main Menu':
+          this.main();
+          break;
+        default:
+          console.log('Something went wrong.');
+          this.showContact(contact);
+      }
+    })
+  }
+
+  _printContact(contact) {
+    console.log(`
+      name: ${contact.name}
+      phone: ${contact.phone}
+      email: ${contact.email}
+      ----------------------`)
+  }
+
+  delete(contact) {
+    inquirer.prompt(this.book.deleteConfirmQuestions)
+    .then((answer) => {
+      if(answer.confirmation){
+        this.book.delete(contact.id);
+        console.log('Contact deleted!');
+        this.main();
+      } else {
+        console.log('Contact not deleted');
+        this.showContact(contact);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      this.main();
+    })
   }
 
 }
